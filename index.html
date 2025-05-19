@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web Tuned Production - Agenzia Web Creativa</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#FF3D57",
+              secondary: "#FFD600",
+              dark: "#111827",
+              darkSecondary: "#1F2937",
+            },
+            borderRadius: {
+              none: "0px",
+              sm: "8px",
+              DEFAULT: "12px",
+              md: "16px",
+              lg: "20px",
+              xl: "24px",
+              "2xl": "28px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "12px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Permanent+Marker&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <style>
+      @media (max-width: 640px) {
+      .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+      }
+      .dark-card {
+      background-color: #1F2937;
+      }
+      h1 {
+      font-size: 2rem;
+      line-height: 1.2;
+      }
+      h2 {
+      font-size: 1.875rem;
+      line-height: 1.2;
+      }
+      .section-padding {
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+      }
+      /* Centro il logo nella navbar su mobile */
+      header .container a:first-child {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      header.scrolled .container a:first-child img {
+        transform: scale(0.8) translateX(0);
+      }
+      /* Posiziono correttamente il pulsante menu su mobile */
+      header .container button {
+        position: relative;
+        margin-left: auto;
+      }
+      }
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+      font-family: 'Montserrat', sans-serif;
+      scroll-behavior: smooth;
+      }
+      
+      /* Stili per la navbar */
+      header {
+        transition: all 0.3s ease;
+        height: auto;
+        padding: 0.75rem 0;
+      }
+      
+      header.scrolled {
+        padding: 0.25rem 0;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        height: 60px; /* Altezza fissa ridotta quando si scorre */
+      }
+      
+      header.scrolled .container {
+        padding-top: 0.15rem;
+        padding-bottom: 0.15rem;
+        height: 100%;
+      }
+      
+      header.scrolled .text-3xl {
+        font-size: 1.5rem;
+        line-height: 1.75rem;
+      }
+      
+      header a, header span, header img {
+        transition: all 0.3s ease;
+      }
+      
+      header.scrolled img {
+        transform: scale(0.8);
+        max-height: 40px;
+      }
+      
+      header.scrolled nav a {
+        font-size: 0.85rem;
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+      }
+      .marker-font {
+      font-family: 'Permanent Marker', cursive;
+      }
+      .halftone {
+      background-image: radial-gradient(#000 0.5px, transparent 0.5px);
+      background-size: 10px 10px;
+      }
+      .slash-bg {
+      position: relative;
+      overflow: hidden;
+      }
+      .slash-bg::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(45deg, #FF3D57 25%, transparent 25%, transparent 50%, #FFD600 50%, #FFD600 75%, transparent 75%);
+      background-size: 10px 10px;
+      transform: rotate(-5deg);
+      z-index: -1;
+      opacity: 0.1;
+      }
+      .card-hover:hover {
+      transform: translateY(-5px) rotate(1deg);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+      .portfolio-item:hover .portfolio-overlay {
+      opacity: 1;
+      }
+      .custom-checkbox {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #FF3D57;
+      border-radius: 4px;
+      position: relative;
+      cursor: pointer;
+      }
+      .custom-checkbox:checked {
+      background-color: #FF3D57;
+      }
+      .custom-checkbox:checked::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 6px;
+      width: 6px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      }
+      .custom-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+      }
+      .custom-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      }
+      .switch-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+      }
+      .switch-slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+      }
+      input:checked + .switch-slider {
+      background-color: #FF3D57;
+      }
+      input:checked + .switch-slider:before {
+      transform: translateX(26px);
+      }
+    </style>
+    <script>
+      // Script per mantenere la navbar sempre nella versione ridotta
+      document.addEventListener('DOMContentLoaded', function() {
+        const header = document.querySelector('header');
+        // Aggiungo la classe scrolled per mantenere la navbar sempre ridotta
+        header.classList.add('scrolled');
+      });
+    </script>
+  </head>
+  <body class="bg-dark text-gray-100">
+    <!-- Header -->
+    <header
+      class="fixed top-0 left-0 right-0 z-50 bg-darkSecondary bg-opacity-95 shadow-md"
+    >
+      <div
+        class="container mx-auto px-4 py-2 flex justify-between items-center"
+      >
+        <a href="#home" class="flex items-center">
+            <img src="log.png" alt="">
+          <!-- <span class="text-3xl font-['Pacifico'] text-primary">production</span> -->
+        
+        </a>
+        <nav class="hidden md:flex items-center space-x-8">
+          <a
+            href="#home"
+            class="font-semibold hover:text-primary transition-colors"
+            >Home</a
+          >
+          <a
+            href="#servizi"
+            class="font-semibold hover:text-primary transition-colors"
+            >Servizi</a
+          >
+          <a
+            href="#portfolio"
+            class="font-semibold hover:text-primary transition-colors"
+            >Portfolio</a
+          >
+          <a
+            href="#tiktok"
+            class="font-semibold hover:text-primary transition-colors"
+            >TikTok</a
+          >
+          <a
+            href="#contatti"
+            class="font-semibold hover:text-primary transition-colors"
+            >Contatti</a
+          >
+        </nav>
+        <button class="md:hidden w-8 h-8 flex items-center justify-center z-10">
+          <i class="ri-menu-line text-xl"></i>
+        </button>
+      </div>
+    </header>
+    <!-- Mobile Menu -->
+    <div class="fixed inset-0 bg-black bg-opacity-90 z-40 hidden">
+      <div class="flex flex-col items-center justify-center h-full">
+        <button class="absolute top-5 right-5 text-white">
+          <i class="ri-close-line ri-2x"></i>
+        </button>
+        <nav class="flex flex-col items-center space-y-8">
+          <a
+            href="#home"
+            class="text-white text-2xl font-bold hover:text-primary transition-colors"
+            >Home</a
+          >
+          <a
+            href="#servizi"
+            class="text-white text-2xl font-bold hover:text-primary transition-colors"
+            >Servizi</a
+          >
+          <a
+            href="#portfolio"
+            class="text-white text-2xl font-bold hover:text-primary transition-colors"
+            >Portfolio</a
+          >
+          <a
+            href="#tiktok"
+            class="text-white text-2xl font-bold hover:text-primary transition-colors"
+            >TikTok</a
+          >
+          <a
+            href="#contatti"
+            class="text-white text-2xl font-bold hover:text-primary transition-colors"
+            >Contatti</a
+          >
+        </nav>
+      </div>
+    </div>
+    <!-- Hero Section -->
+    <section
+      id="home"
+      class="relative pt-24 overflow-hidden"
+      style="background-image: url('hero.jpg'); background-size: cover; background-position: center;"
+    >
+      <div
+        class="absolute inset-0 bg-gradient-to-r from-dark via-darkSecondary/80 to-transparent"
+      ></div>
+      <div class="container mx-auto px-4 py-16 sm:py-20 md:py-32 relative">
+        <div class="w-full flex flex-col md:flex-row items-center gap-8">
+          <div class="w-full md:w-1/2 mb-6 sm:mb-10 md:mb-0">
+            <h1
+              class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 sm:mb-6"
+            >
+              <span class="marker-font text-primary">Creatività</span> e
+              <span class="marker-font text-blue-400">Innovazione</span> per il
+              tuo
+              <span class="marker-font text-white relative">
+                Web
+              </span>
+            </h1>
+            <p class="text-lg md:text-xl mb-8 max-w-lg text-gray-200">
+              Trasformiamo le tue idee in esperienze digitali uniche. Siti web,
+              e-commerce e strategie SEO che fanno la differenza nel mercato
+              digitale.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+              <button
+                class="bg-primary text-white px-8 py-3 font-bold rounded-button shadow-lg hover:shadow-xl transition-all whitespace-nowrap"
+              >
+                Richiedi Preventivo
+              </button>
+              <button
+                class="border-2 border-gray-300 bg-transparent text-white px-8 py-3 font-bold rounded-button hover:bg-white hover:text-dark transition-all whitespace-nowrap"
+              >
+                Scopri di più
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-r from-primary via-secondary to-blue-500 transform -skew-y-2 -mb-8 opacity-30"
+      ></div>
+    </section>
+    <!-- Servizi Section -->
+    <section id="servizi" class="py-20 relative overflow-hidden bg-dark">
+      <div class="absolute inset-0 halftone opacity-10"></div>
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold mb-4">
+            I Nostri <span class="text-primary">Servizi</span>
+          </h2>
+          <p class="text-lg max-w-2xl mx-auto">
+            Offriamo soluzioni digitali complete per far crescere il tuo
+            business online con un tocco creativo e innovativo.
+          </p>
+        </div>
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+        >
+          <!-- Web Design Card -->
+          <div
+            class="bg-darkSecondary p-8 rounded-lg shadow-lg transform -rotate-1 card-hover transition-all duration-300 relative overflow-hidden border border-gray-700"
+          >
+            <div
+              class="absolute top-0 right-0 w-24 h-24 bg-primary opacity-10 rounded-full -mr-10 -mt-10"
+            ></div>
+            <div
+              class="w-16 h-16 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-6"
+            >
+              <i class="ri-layout-4-line ri-2x text-primary"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">Starter</h3>
+            <p class="mb-6">
+              Creiamo siti web unici e accattivanti che catturano l'essenza del
+              tuo brand e coinvolgono i visitatori con esperienze interattive.
+            </p>
+            <ul class="mb-6 space-y-2">
+              <li class="flex items-start">
+                <i class="ri-checkbox-circle-line text-primary mr-2 mt-1"></i>
+                <span>Design responsive per tutti i dispositivi</span>
+              </li>
+              <li class="flex items-start">
+                <i class="ri-checkbox-circle-line text-primary mr-2 mt-1"></i>
+                <span>Interfacce utente intuitive e moderne</span>
+              </li>
+              <li class="flex items-start">
+                <i class="ri-checkbox-circle-line text-primary mr-2 mt-1"></i>
+                <span>Animazioni e interazioni personalizzate</span>
+              </li>
+            </ul>
+            <a href="#" class="inline-flex items-center font-bold text-primary">
+              Scopri di più
+              <i class="ri-arrow-right-line ml-2"></i>
+            </a>
+          </div>
+          <!-- E-commerce Card -->
+          <div
+            class="bg-darkSecondary p-8 rounded-lg shadow-lg transform rotate-1 card-hover transition-all duration-300 relative overflow-hidden"
+          >
+            <div
+              class="absolute top-0 right-0 w-24 h-24 bg-yellow-400 opacity-10 rounded-full -mr-10 -mt-10"
+            ></div>
+            <div
+              class="w-16 h-16 bg-yellow-400 bg-opacity-10 rounded-full flex items-center justify-center mb-6"
+            >
+              <i class="ri-shopping-cart-2-line ri-2x text-yellow-500"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">E-commerce</h3>
+            <p class="mb-6">
+              Sviluppiamo negozi online performanti che convertono i visitatori
+              in clienti e massimizzano le tue vendite digitali.
+            </p>
+            <ul class="mb-6 space-y-2">
+              <li class="flex items-start">
+                <i
+                  class="ri-checkbox-circle-line text-yellow-500 mr-2 mt-1"
+                ></i>
+                <span>Piattaforme e-commerce personalizzate</span>
+              </li>
+              <li class="flex items-start">
+                <i
+                  class="ri-checkbox-circle-line text-yellow-500 mr-2 mt-1"
+                ></i>
+                <span>Integrazione con sistemi di pagamento</span>
+              </li>
+              <li class="flex items-start">
+                <i
+                  class="ri-checkbox-circle-line text-yellow-500 mr-2 mt-1"
+                ></i>
+                <span>Gestione inventario e ordini automatizzata</span>
+              </li>
+            </ul>
+            <a
+              href="#"
+              class="inline-flex items-center font-bold text-yellow-500"
+            >
+              Scopri di più
+              <i class="ri-arrow-right-line ml-2"></i>
+            </a>
+          </div>
+          <!-- SEO Card -->
+          <div
+            class="bg-darkSecondary p-8 rounded-lg shadow-lg transform -rotate-1 card-hover transition-all duration-300 relative overflow-hidden border border-gray-700"
+          >
+            <div
+              class="absolute top-0 right-0 w-24 h-24 bg-blue-600 opacity-10 rounded-full -mr-10 -mt-10"
+            ></div>
+            <div
+              class="w-16 h-16 bg-blue-600 bg-opacity-10 rounded-full flex items-center justify-center mb-6"
+            >
+              <i class="ri-line-chart-line ri-2x text-blue-600"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">SEO Optimization</h3>
+            <p class="mb-6">
+              Miglioriamo la visibilità del tuo sito web sui motori di ricerca
+              per attirare più traffico qualificato e potenziali clienti.
+            </p>
+            <ul class="mb-6 space-y-2">
+              <li class="flex items-start">
+                <i class="ri-checkbox-circle-line text-blue-600 mr-2 mt-1"></i>
+                <span>Analisi delle parole chiave strategiche</span>
+              </li>
+              <li class="flex items-start">
+                <i class="ri-checkbox-circle-line text-blue-600 mr-2 mt-1"></i>
+                <span>Ottimizzazione on-page e tecnica</span>
+              </li>
+              <li class="flex items-start">
+                <i class="ri-checkbox-circle-line text-blue-600 mr-2 mt-1"></i>
+                <span>Monitoraggio e report delle performance</span>
+              </li>
+            </ul>
+            <a
+              href="#"
+              class="inline-flex items-center font-bold text-blue-600"
+            >
+              Scopri di più
+              <i class="ri-arrow-right-line ml-2"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-20 bg-darkSecondary relative">
+      <div class="absolute inset-0 slash-bg"></div>
+      <div class="container mx-auto px-4 relative">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold mb-4">
+            Il Nostro <span class="text-primary">Portfolio</span>
+          </h2>
+          <p class="text-lg max-w-2xl mx-auto">
+            Esplora i nostri progetti creativi e scopri come abbiamo aiutato i
+            nostri clienti a raggiungere i loro obiettivi digitali.
+          </p>
+        </div>
+        <div class="flex justify-center mb-8 sm:mb-10 overflow-x-auto pb-2">
+          <div
+            class="inline-flex bg-dark p-1 rounded-full shadow-md border border-gray-700"
+          >
+            <button
+              class="px-4 sm:px-6 py-2 rounded-full bg-primary text-white font-bold whitespace-nowrap text-sm sm:text-base"
+            >
+              Tutti
+            </button>
+            <button
+              class="px-4 sm:px-6 py-2 rounded-full text-gray-700 font-bold hover:bg-gray-100 whitespace-nowrap text-sm sm:text-base"
+            >
+              Web Design
+            </button>
+            <button
+              class="px-4 sm:px-6 py-2 rounded-full text-gray-700 font-bold hover:bg-gray-100 whitespace-nowrap text-sm sm:text-base"
+            >
+              E-commerce
+            </button>
+            <button
+              class="px-4 sm:px-6 py-2 rounded-full text-gray-700 font-bold hover:bg-gray-100 whitespace-nowrap text-sm sm:text-base"
+            >
+              Video
+            </button>
+          </div>
+        </div>
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+        >
+          <!-- Portfolio Item 1 -->
+          <div
+            class="portfolio-item group relative rounded-lg overflow-hidden shadow-lg"
+          >
+            <img
+              src="https://readdy.ai/api/search-image?query=A%20modern%2C%20clean%20e-commerce%20website%20design%20for%20a%20fashion%20brand%20displayed%20on%20a%20desktop%20screen.%20The%20website%20features%20a%20minimalist%20layout%20with%20high-quality%20product%20images%2C%20clear%20navigation%2C%20and%20a%20sophisticated%20color%20scheme.%20The%20design%20should%20look%20professional%20and%20contemporary%2C%20showcasing%20clothing%20items%20in%20an%20elegant%20grid%20layout%20with%20subtle%20hover%20effects.&width=600&height=400&seq=2&orientation=landscape"
+              alt="Progetto E-commerce Moda"
+              class="w-full h-64 object-cover object-top transition-transform duration-500 group-hover:scale-110"
+            />
+            <div
+              class="portfolio-overlay absolute inset-0 bg-primary bg-opacity-80 flex flex-col justify-center items-center p-6 opacity-0 transition-opacity duration-300"
+            >
+              <h3 class="text-white text-xl font-bold mb-2">
+                Boutique Online Eleganza
+              </h3>
+              <p class="text-white text-center mb-4">
+                E-commerce per brand di moda con design minimalista e
+                funzionalità avanzate di acquisto.
+              </p>
+              <a
+                href="#"
+                class="bg-white text-primary px-6 py-2 rounded-button font-bold hover:bg-opacity-90 transition-all whitespace-nowrap"
+                >Vedi Progetto</a
+              >
+            </div>
+          </div>
+          <!-- Portfolio Item 2 -->
+          <div
+            class="portfolio-item group relative rounded-lg overflow-hidden shadow-lg"
+          >
+            <img
+              src="https://readdy.ai/api/search-image?query=A%20sleek%2C%20modern%20corporate%20website%20design%20for%20a%20tech%20company%20displayed%20on%20a%20laptop.%20The%20website%20features%20a%20professional%20layout%20with%20sections%20for%20services%2C%20team%20members%2C%20and%20company%20information.%20The%20design%20should%20incorporate%20data%20visualizations%2C%20clean%20typography%2C%20and%20a%20blue%20and%20white%20color%20scheme%20that%20conveys%20trust%20and%20innovation.&width=600&height=400&seq=3&orientation=landscape"
+              alt="Sito Web Aziendale"
+              class="w-full h-64 object-cover object-top transition-transform duration-500 group-hover:scale-110"
+            />
+            <div
+              class="portfolio-overlay absolute inset-0 bg-blue-600 bg-opacity-80 flex flex-col justify-center items-center p-6 opacity-0 transition-opacity duration-300"
+            >
+              <h3 class="text-white text-xl font-bold mb-2">
+                TechVision Corporate
+              </h3>
+              <p class="text-white text-center mb-4">
+                Sito web aziendale per società di consulenza IT con design
+                moderno e interfaccia intuitiva.
+              </p>
+              <a
+                href="#"
+                class="bg-white text-blue-600 px-6 py-2 rounded-button font-bold hover:bg-opacity-90 transition-all whitespace-nowrap"
+                >Vedi Progetto</a
+              >
+            </div>
+          </div>
+          <!-- Portfolio Item 3 -->
+          <div
+            class="portfolio-item group relative rounded-lg overflow-hidden shadow-lg"
+          >
+            <img
+              src="https://readdy.ai/api/search-image?query=A%20smartphone%20displaying%20a%20TikTok-style%20video%20content%20creation%20with%20vibrant%20pop%20art%20effects%20and%20filters.%20The%20screen%20shows%20a%20creative%2C%20eye-catching%20video%20with%20bold%20colors%2C%20comic%20book%20style%20elements%2C%20and%20dynamic%20visual%20effects%20that%20would%20appeal%20to%20a%20young%20audience.%20The%20content%20appears%20to%20be%20promoting%20a%20business%20in%20an%20engaging%2C%20entertaining%20way.&width=600&height=400&seq=4&orientation=landscape"
+              alt="Video TikTok"
+              class="w-full h-64 object-cover object-top transition-transform duration-500 group-hover:scale-110"
+            />
+            <div
+              class="portfolio-overlay absolute inset-0 bg-yellow-400 bg-opacity-80 flex flex-col justify-center items-center p-6 opacity-0 transition-opacity duration-300"
+            >
+              <h3 class="text-white text-xl font-bold mb-2">
+                Campagna TikTok Gelato Artigianale
+              </h3>
+              <p class="text-white text-center mb-4">
+                Serie di video virali per gelateria locale con oltre 500K
+                visualizzazioni totali.
+              </p>
+              <a
+                href="#"
+                class="bg-white text-yellow-500 px-6 py-2 rounded-button font-bold hover:bg-opacity-90 transition-all whitespace-nowrap"
+                >Vedi Progetto</a
+              >
+            </div>
+          </div>
+          <!-- Portfolio Item 4 -->
+          <div
+            class="portfolio-item group relative rounded-lg overflow-hidden shadow-lg"
+          >
+            <img
+              src="https://readdy.ai/api/search-image?query=A%20responsive%20website%20design%20for%20a%20restaurant%20displayed%20on%20multiple%20devices%20%28desktop%2C%20tablet%2C%20and%20smartphone%29.%20The%20website%20features%20mouth-watering%20food%20photography%2C%20an%20online%20menu%2C%20reservation%20system%2C%20and%20location%20information.%20The%20design%20should%20be%20warm%20and%20inviting%20with%20rich%20colors%20that%20complement%20food%20imagery.&width=600&height=400&seq=5&orientation=landscape"
+              alt="Sito Web Ristorante"
+              class="w-full h-64 object-cover object-top transition-transform duration-500 group-hover:scale-110"
+            />
+            <div
+              class="portfolio-overlay absolute inset-0 bg-primary bg-opacity-80 flex flex-col justify-center items-center p-6 opacity-0 transition-opacity duration-300"
+            >
+              <h3 class="text-white text-xl font-bold mb-2">
+                Ristorante Da Marco
+              </h3>
+              <p class="text-white text-center mb-4">
+                Sito web responsive con sistema di prenotazione online e menu
+                digitale interattivo.
+              </p>
+              <a
+                href="#"
+                class="bg-white text-primary px-6 py-2 rounded-button font-bold hover:bg-opacity-90 transition-all whitespace-nowrap"
+                >Vedi Progetto</a
+              >
+            </div>
+          </div>
+          <!-- Portfolio Item 5 -->
+          <div
+            class="portfolio-item group relative rounded-lg overflow-hidden shadow-lg"
+          >
+            <img
+              src="https://readdy.ai/api/search-image?query=A%20mobile%20app%20interface%20for%20a%20fitness%20tracking%20application%20displayed%20on%20a%20smartphone.%20The%20app%20features%20workout%20tracking%2C%20progress%20charts%2C%20and%20personalized%20fitness%20plans.%20The%20design%20should%20be%20energetic%20and%20motivational%20with%20a%20clean%20layout%20that%20makes%20data%20easy%20to%20understand%20at%20a%20glance.&width=600&height=400&seq=6&orientation=landscape"
+              alt="App Fitness"
+              class="w-full h-64 object-cover object-top transition-transform duration-500 group-hover:scale-110"
+            />
+            <div
+              class="portfolio-overlay absolute inset-0 bg-blue-600 bg-opacity-80 flex flex-col justify-center items-center p-6 opacity-0 transition-opacity duration-300"
+            >
+              <h3 class="text-white text-xl font-bold mb-2">FitLife App</h3>
+              <p class="text-white text-center mb-4">
+                Applicazione mobile per il fitness con tracciamento allenamenti
+                e piano nutrizionale personalizzato.
+              </p>
+              <a
+                href="#"
+                class="bg-white text-blue-600 px-6 py-2 rounded-button font-bold hover:bg-opacity-90 transition-all whitespace-nowrap"
+                >Vedi Progetto</a
+              >
+            </div>
+          </div>
+          <!-- Portfolio Item 6 -->
+          <div
+            class="portfolio-item group relative rounded-lg overflow-hidden shadow-lg"
+          >
+            <img
+              src="https://readdy.ai/api/search-image?query=A%20smartphone%20displaying%20a%20creative%20TikTok%20video%20being%20filmed%20in%20a%20retail%20store.%20The%20screen%20shows%20someone%20creating%20engaging%2C%20fun%20content%20that%20showcases%20products%20in%20an%20innovative%20way.%20The%20video%20has%20colorful%20graphics%2C%20text%20overlays%2C%20and%20special%20effects%20that%20make%20the%20retail%20products%20look%20exciting%20and%20appealing%20to%20a%20young%20audience.&width=600&height=400&seq=7&orientation=landscape"
+              alt="Video TikTok Retail"
+              class="w-full h-64 object-cover object-top transition-transform duration-500 group-hover:scale-110"
+            />
+            <div
+              class="portfolio-overlay absolute inset-0 bg-yellow-400 bg-opacity-80 flex flex-col justify-center items-center p-6 opacity-0 transition-opacity duration-300"
+            >
+              <h3 class="text-white text-xl font-bold mb-2">
+                Campagna TikTok Boutique Moda
+              </h3>
+              <p class="text-white text-center mb-4">
+                Video creativi per negozio di abbigliamento con aumento del 70%
+                delle visite in store.
+              </p>
+              <a
+                href="#"
+                class="bg-white text-yellow-500 px-6 py-2 rounded-button font-bold hover:bg-opacity-90 transition-all whitespace-nowrap"
+                >Vedi Progetto</a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="text-center mt-12">
+          <button
+            class="bg-black text-white px-8 py-3 rounded-button font-bold hover:bg-gray-800 transition-all whitespace-nowrap"
+          >
+            Vedi tutti i progetti
+          </button>
+        </div>
+      </div>
+    </section>
+    <!-- TikTok Section -->
+    <section id="tiktok" class="py-20 relative overflow-hidden bg-dark">
+      <div
+        class="absolute top-0 left-0 w-64 h-64 bg-primary opacity-10 rounded-full -ml-32 -mt-32"
+      ></div>
+      <div
+        class="absolute bottom-0 right-0 w-64 h-64 bg-blue-600 opacity-10 rounded-full -mr-32 -mb-32"
+      ></div>
+      <div class="container mx-auto px-4 relative">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold mb-4">
+            I Nostri <span class="text-primary"> TikTok</span>
+          </h2>
+          <p class="text-lg max-w-2xl mx-auto">
+            Creiamo contenuti virali che raccontano il tuo brand in modo
+            divertente e coinvolgente, raggiungendo nuovi potenziali clienti.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- TikTok Video 1 -->
+          <div
+            class="bg-darkSecondary rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300 border border-gray-700"
+          >
+            <div class="relative pb-[177.77%]">
+              <div
+                class="absolute inset-0 bg-black flex items-center justify-center"
+              >
+                <img
+                  src="https://readdy.ai/api/search-image?query=A%20smartphone%20screen%20displaying%20a%20TikTok%20video%20of%20a%20barista%20creating%20latte%20art%20in%20a%20coffee%20shop.%20The%20video%20shows%20the%20process%20of%20making%20beautiful%20coffee%20art%20with%20milk%20foam%2C%20captured%20in%20a%20vertical%20format%20typical%20for%20TikTok.%20The%20content%20appears%20engaging%20and%20satisfying%20to%20watch%2C%20with%20good%20lighting%20that%20highlights%20the%20coffee-making%20process.&width=400&height=711&seq=8&orientation=portrait"
+                  alt="TikTok Coffee"
+                  class="w-full h-full object-cover"
+                />
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div
+                    class="w-16 h-16 rounded-full bg-white bg-opacity-30 flex items-center justify-center"
+                  >
+                    <i class="ri-play-fill ri-2x text-white"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-4">
+              <h3 class="font-bold text-lg mb-2">
+                L'arte del caffè in 15 secondi
+              </h3>
+              <div class="flex items-center text-sm text-gray-600 mb-3">
+                <div class="flex items-center mr-4">
+                  <i class="ri-eye-line mr-1"></i>
+                  <span>245.7K</span>
+                </div>
+                <div class="flex items-center mr-4">
+                  <i class="ri-heart-line mr-1"></i>
+                  <span>56.3K</span>
+                </div>
+                <div class="flex items-center">
+                  <i class="ri-chat-1-line mr-1"></i>
+                  <span>1.2K</span>
+                </div>
+              </div>
+              <p class="text-gray-700">
+                Abbiamo trasformato la preparazione del caffè in un'esperienza
+                virale per Caffetteria Milano.
+              </p>
+            </div>
+          </div>
+          <!-- TikTok Video 2 -->
+          <div
+            class="bg-darkSecondary rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300 border border-gray-700"
+          >
+            <div class="relative pb-[177.77%]">
+              <div
+                class="absolute inset-0 bg-black flex items-center justify-center"
+              >
+                <img
+                  src="https://readdy.ai/api/search-image?query=A%20smartphone%20screen%20displaying%20a%20TikTok%20video%20of%20a%20chef%20preparing%20a%20colorful%2C%20visually%20appealing%20dish%20in%20a%20restaurant%20kitchen.%20The%20video%20is%20captured%20in%20vertical%20format%20typical%20for%20TikTok%2C%20showing%20the%20chefs%20hands%20working%20quickly%20and%20skillfully%20to%20plate%20the%20food%20in%20an%20artistic%20way.%20The%20content%20appears%20fast-paced%20and%20satisfying%20to%20watch.&width=400&height=711&seq=9&orientation=portrait"
+                  alt="TikTok Chef"
+                  class="w-full h-full object-cover"
+                />
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div
+                    class="w-16 h-16 rounded-full bg-white bg-opacity-30 flex items-center justify-center"
+                  >
+                    <i class="ri-play-fill ri-2x text-white"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-4">
+              <h3 class="font-bold text-lg mb-2">
+                Dalla cucina al piatto: magia culinaria
+              </h3>
+              <div class="flex items-center text-sm text-gray-600 mb-3">
+                <div class="flex items-center mr-4">
+                  <i class="ri-eye-line mr-1"></i>
+                  <span>189.2K</span>
+                </div>
+                <div class="flex items-center mr-4">
+                  <i class="ri-heart-line mr-1"></i>
+                  <span>42.8K</span>
+                </div>
+                <div class="flex items-center">
+                  <i class="ri-chat-1-line mr-1"></i>
+                  <span>876</span>
+                </div>
+              </div>
+              <p class="text-gray-700">
+                Serie di video che hanno aumentato le prenotazioni del 35% per
+                Ristorante Gusto.
+              </p>
+            </div>
+          </div>
+          <!-- TikTok Video 3 -->
+          <div
+            class="bg-darkSecondary rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300 border border-gray-700"
+          >
+            <div class="relative pb-[177.77%]">
+              <div
+                class="absolute inset-0 bg-black flex items-center justify-center"
+              >
+                <img
+                  src="https://readdy.ai/api/search-image?query=A%20smartphone%20screen%20displaying%20a%20TikTok%20video%20of%20someone%20showcasing%20fashion%20items%20in%20a%20creative%2C%20fun%20way.%20The%20video%20is%20in%20vertical%20format%20typical%20for%20TikTok%2C%20showing%20quick%20outfit%20changes%20or%20styling%20tips%20with%20trendy%20clothing%20pieces.%20The%20content%20appears%20energetic%20and%20engaging%20with%20good%20lighting%20that%20highlights%20the%20fashion%20items.&width=400&height=711&seq=10&orientation=portrait"
+                  alt="TikTok Fashion"
+                  class="w-full h-full object-cover"
+                />
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div
+                    class="w-16 h-16 rounded-full bg-white bg-opacity-30 flex items-center justify-center"
+                  >
+                    <i class="ri-play-fill ri-2x text-white"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-4">
+              <h3 class="font-bold text-lg mb-2">
+                Trasformazioni di stile in 10 secondi
+              </h3>
+              <div class="flex items-center text-sm text-gray-600 mb-3">
+                <div class="flex items-center mr-4">
+                  <i class="ri-eye-line mr-1"></i>
+                  <span>321.5K</span>
+                </div>
+                <div class="flex items-center mr-4">
+                  <i class="ri-heart-line mr-1"></i>
+                  <span>78.9K</span>
+                </div>
+                <div class="flex items-center">
+                  <i class="ri-chat-1-line mr-1"></i>
+                  <span>2.3K</span>
+                </div>
+              </div>
+              <p class="text-gray-700">
+                Video di outfit transformation che hanno fatto esplodere le
+                vendite per Boutique Eleganza.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="text-center mt-12">
+          <a
+            href="https://www.tiktok.com"
+            target="_blank"
+            class="inline-flex items-center bg-black text-white px-8 py-3 rounded-button font-bold hover:bg-gray-800 transition-all whitespace-nowrap"
+          >
+            <i class="ri-tiktok-fill mr-2"></i>
+            Seguici su TikTok
+          </a>
+        </div>
+      </div>
+    </section>
+    <!-- Contatti Section -->
+    <section id="contatti" class="py-20 bg-darkSecondary relative">
+
+        <div
+        class="absolute top-0 left-0 w-full h-full"
+        style="background-image: url('https://readdy.ai/api/search-image?query=Abstract%20pop%20art%20pattern%20with%20halftone%20dots%2C%20geometric%20shapes%2C%20and%20comic%20book%20style%20elements%20in%20bright%20colors.%20The%20pattern%20should%20be%20subtle%20enough%20to%20serve%20as%20a%20background%20for%20text%2C%20with%20low%20opacity.%20Include%20elements%20like%20dots%2C%20zigzags%2C%20and%20abstract%20shapes%20in%20a%20cohesive%20pop%20art%20style.&width=1920&height=400&seq=11&orientation=landscape'); background-size: cover; background-position: center; opacity: 0.1;"
+      ></div>
+      
+
+      <div class="absolute inset-0 halftone opacity-5"></div>
+      <div class="container mx-auto px-4 relative">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold mb-4">Contattaci</h2>
+          <p class="text-lg max-w-2xl mx-auto">
+            Hai un progetto in mente? Parliamone! Siamo pronti a trasformare le
+            tue idee in realtà digitali di successo.
+          </p>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-6 sm:gap-8 lg:gap-10">
+          <div
+            class="w-full lg:w-1/2 bg-dark p-8 rounded-lg shadow-lg border border-gray-700"
+          >
+            <h3 class="text-2xl font-bold mb-6">Inviaci un messaggio</h3>
+            <form>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6">
+                <div>
+                  <label
+                    for="nome"
+                    class="block text-sm font-medium text-gray-300 mb-2"
+                    >Nome</label
+                  >
+                  <input
+                    type="text"
+                    id="nome"
+                    class="w-full px-4 py-3 bg-darkSecondary border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-white placeholder-gray-400"
+                    placeholder="Il tuo nome"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-300 mb-2"
+                    >Email</label
+                  >
+                  <input
+                    type="email"
+                    id="email"
+                    class="w-full px-4 py-3 bg-darkSecondary border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-white placeholder-gray-400"
+                    placeholder="La tua email"
+                  />
+                </div>
+              </div>
+              <div class="mb-6">
+                <label
+                  for="oggetto"
+                  class="block text-sm font-medium text-gray-300 mb-2"
+                  >Oggetto</label
+                >
+                <input
+                  type="text"
+                  id="oggetto"
+                  class="w-full px-4 py-3 bg-darkSecondary border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-white placeholder-gray-400"
+                  placeholder="Oggetto del messaggio"
+                />
+              </div>
+              <div class="mb-6">
+                <label
+                  for="messaggio"
+                  class="block text-sm font-medium text-gray-300 mb-2"
+                  >Messaggio</label
+                >
+                <textarea
+                  id="messaggio"
+                  rows="5"
+                  class="w-full px-4 py-3 bg-darkSecondary border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-white placeholder-gray-400"
+                  placeholder="Il tuo messaggio"
+                ></textarea>
+              </div>
+              <div class="mb-6">
+                <label class="flex items-center">
+                  <input type="checkbox" class="custom-checkbox mr-2" />
+                  <span class="text-sm text-gray-300"
+                    >Acconsento al trattamento dei dati personali secondo la
+                    Privacy Policy</span
+                  >
+                </label>
+              </div>
+              <button
+                type="submit"
+                class="w-full bg-primary text-white px-6 py-3 rounded-button font-bold hover:bg-opacity-90 transition-all whitespace-nowrap"
+              >
+                Invia Messaggio
+              </button>
+            </form>
+          </div>
+          <div class="w-full lg:w-1/2">
+            <div
+              class="bg-dark p-8 rounded-lg shadow-lg mb-8 border border-gray-700"
+            >
+              <h3 class="text-2xl font-bold mb-6">Informazioni di contatto</h3>
+              <div class="space-y-4">
+                <div class="flex items-start">
+                  <div
+                    class="w-10 h-10 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mr-4"
+                  >
+                    <i class="ri-map-pin-line text-primary"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold">Indirizzo</h4>
+                    <p class="text-gray-400">
+                      Via Creatività 42, 20100 Milano, Italia
+                    </p>
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <div
+                    class="w-10 h-10 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mr-4"
+                  >
+                    <i class="ri-phone-line text-primary"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold">Telefono</h4>
+                    <p class="text-gray-400">+39 02 1234 5678</p>
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <div
+                    class="w-10 h-10 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mr-4"
+                  >
+                    <i class="ri-mail-line text-primary"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold">Email</h4>
+                    <p class="text-gray-400">info@webtuned.it</p>
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <div
+                    class="w-10 h-10 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mr-4"
+                  >
+                    <i class="ri-time-line text-primary"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold">Orari</h4>
+                    <p class="text-gray-400">Lun - Ven: 9:00 - 18:00</p>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-8">
+                <h4 class="font-bold mb-4">Seguici sui social</h4>
+                <div class="flex space-x-4">
+                  <a
+                    href="#"
+                    class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white hover:bg-opacity-90 transition-all"
+                  >
+                    <i class="ri-facebook-fill"></i>
+                  </a>
+                  <a
+                    href="#"
+                    class="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center text-white hover:bg-opacity-90 transition-all"
+                  >
+                    <i class="ri-instagram-fill"></i>
+                  </a>
+                  <a
+                    href="#"
+                    class="w-10 h-10 bg-black rounded-full flex items-center justify-center text-white hover:bg-opacity-90 transition-all"
+                  >
+                    <i class="ri-tiktok-fill"></i>
+                  </a>
+                  <a
+                    href="#"
+                    class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center text-white hover:bg-opacity-90 transition-all"
+                  >
+                    <i class="ri-twitter-x-fill"></i>
+                  </a>
+                  <a
+                    href="#"
+                    class="w-10 h-10 bg-blue-700 rounded-full flex items-center justify-center text-white hover:bg-opacity-90 transition-all"
+                  >
+                    <i class="ri-linkedin-fill"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="bg-white p-4 rounded-lg shadow-lg h-64 relative overflow-hidden"
+            >
+              <img
+                src="https://public.readdy.ai/gen_page/map_placeholder_1280x720.png"
+                alt="Mappa"
+                class="absolute inset-0 w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Newsletter Section -->
+    <!-- <section class="py-16 bg-primary relative overflow-hidden">
+      <div
+        class="absolute top-0 left-0 w-full h-full"
+        style="background-image: url('https://readdy.ai/api/search-image?query=Abstract%20pop%20art%20pattern%20with%20halftone%20dots%2C%20geometric%20shapes%2C%20and%20comic%20book%20style%20elements%20in%20bright%20colors.%20The%20pattern%20should%20be%20subtle%20enough%20to%20serve%20as%20a%20background%20for%20text%2C%20with%20low%20opacity.%20Include%20elements%20like%20dots%2C%20zigzags%2C%20and%20abstract%20shapes%20in%20a%20cohesive%20pop%20art%20style.&width=1920&height=400&seq=11&orientation=landscape'); background-size: cover; background-position: center; opacity: 0.1;"
+      ></div>
+      <div class="container mx-auto px-4 relative">
+        <div class="max-w-3xl mx-auto text-center text-white">
+          <h2 class="text-3xl font-bold mb-4">
+            Iscriviti alla nostra Newsletter
+          </h2>
+          <p class="mb-8">
+            Ricevi aggiornamenti, consigli e offerte speciali direttamente nella
+            tua casella di posta.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+            <input
+              type="email"
+              placeholder="La tua email"
+              class="flex-1 px-4 py-3 rounded-button bg-darkSecondary border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            />
+            <button
+              class="bg-black text-white px-6 py-3 rounded-button font-bold hover:bg-gray-800 transition-all whitespace-nowrap"
+            >
+              Iscriviti Ora
+            </button>
+          </div>
+        </div>
+      </div>
+    </section> -->
+    <!-- Footer -->
+    <footer class="bg-black text-gray-100 pt-16 pb-8 border-t border-gray-800">
+      <div class="container mx-auto px-4">
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 mb-8 sm:mb-12"
+        >
+          <div>
+            <a href="#" class="flex items-center mb-6">
+              <span class="text-3xl font-['Pacifico'] text-white"
+                >Web Tuned</span
+              >
+              <span
+                class="ml-1 text-sm bg-primary text-white px-2 py-0.5 rounded-full"
+                >Production</span
+              >
+            </a>
+            <p class="text-gray-400 mb-6">
+              Trasformiamo le tue idee in esperienze digitali uniche e
+              coinvolgenti che fanno crescere il tuo business.
+            </p>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="w-10 h-10 border border-gray-700 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:border-white transition-all"
+              >
+                <i class="ri-facebook-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 border border-gray-700 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:border-white transition-all"
+              >
+                <i class="ri-instagram-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 border border-gray-700 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:border-white transition-all"
+              >
+                <i class="ri-tiktok-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 border border-gray-700 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:border-white transition-all"
+              >
+                <i class="ri-linkedin-fill"></i>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-6">Link Rapidi</h3>
+            <ul class="space-y-3">
+              <li>
+                <a
+                  href="#home"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#servizi"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Servizi</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#portfolio"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Portfolio</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#tiktok"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >TikTok</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#contatti"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Contatti</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-6">Servizi</h3>
+            <ul class="space-y-3">
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Web Design</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >E-commerce</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >SEO Optimization</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Content Creation</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Social Media Marketing</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-6">Contatti</h3>
+            <ul class="space-y-3">
+              <li class="flex items-start">
+                <i class="ri-map-pin-line mr-3 mt-1 text-primary"></i>
+                <span class="text-gray-400"
+                  >Via Creatività 42, 20100 Milano, Italia</span
+                >
+              </li>
+              <li class="flex items-start">
+                <i class="ri-phone-line mr-3 mt-1 text-primary"></i>
+                <span class="text-gray-400">+39 02 1234 5678</span>
+              </li>
+              <li class="flex items-start">
+                <i class="ri-mail-line mr-3 mt-1 text-primary"></i>
+                <span class="text-gray-400">info@webtuned.it</span>
+              </li>
+              <li class="flex items-start">
+                <i class="ri-time-line mr-3 mt-1 text-primary"></i>
+                <span class="text-gray-400">Lun - Ven: 9:00 - 18:00</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center"
+        >
+          <p class="text-gray-500 text-sm mb-4 md:mb-0">
+            © 2025 Web Tuned Production. Tutti i diritti riservati.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <a
+              href="#"
+              class="text-gray-500 text-sm hover:text-white transition-colors"
+              >Privacy Policy</a
+            >
+            <a
+              href="#"
+              class="text-gray-500 text-sm hover:text-white transition-colors"
+              >Termini e Condizioni</a
+            >
+            <a
+              href="#"
+              class="text-gray-500 text-sm hover:text-white transition-colors"
+              >Cookie Policy</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- Back to Top Button -->
+    <button
+      id="backToTop"
+      class="fixed bottom-6 right-6 w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white shadow-lg transform translate-y-20 opacity-0 transition-all duration-300"
+    >
+      <i class="ri-arrow-up-line ri-lg"></i>
+    </button>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Navbar Scroll Effect
+        const header = document.querySelector('header');
+        let lastScrollTop = 0;
+        
+        window.addEventListener('scroll', function() {
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          
+          if (scrollTop > 50) {
+            header.classList.add('scrolled');
+          } else {
+            header.classList.remove('scrolled');
+          }
+          
+          lastScrollTop = scrollTop;
+        });
+        
+        // Back to Top Button
+        const backToTopButton = document.getElementById("backToTop");
+        window.addEventListener("scroll", function () {
+          if (window.scrollY > 300) {
+            backToTopButton.classList.remove("translate-y-20", "opacity-0");
+            backToTopButton.classList.add("translate-y-0", "opacity-100");
+          } else {
+            backToTopButton.classList.add("translate-y-20", "opacity-0");
+            backToTopButton.classList.remove("translate-y-0", "opacity-100");
+          }
+        });
+        backToTopButton.addEventListener("click", function () {
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+        });
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        // Mobile Menu Toggle
+        const menuButton = document.querySelector(".md\\:hidden");
+        const mobileMenu = document.querySelector(".fixed.inset-0.bg-black");
+        const closeButton = document.querySelector(".fixed.inset-0.bg-black button");
+        
+        // Funzione toggle per aprire/chiudere il menu
+        menuButton.addEventListener("click", function () {
+          if (mobileMenu.classList.contains("hidden")) {
+            mobileMenu.classList.remove("hidden");
+          } else {
+            mobileMenu.classList.add("hidden");
+          }
+        });
+        
+        closeButton.addEventListener("click", function () {
+          mobileMenu.classList.add("hidden");
+        });
+        // Close mobile menu when clicking on a link
+        const mobileLinks = document.querySelectorAll(".fixed.inset-0.bg-black a");
+        mobileLinks.forEach((link) => {
+          link.addEventListener("click", function () {
+            mobileMenu.classList.add("hidden");
+          });
+        });
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute("href");
+            if (targetId === "#") return;
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+              window.scrollTo({
+                top: targetElement.offsetTop - 80,
+                behavior: "smooth",
+              });
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
